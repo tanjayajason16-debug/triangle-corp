@@ -1,0 +1,591 @@
+@import url('https://db.onlinewebfonts.com/c/2eccf178aa2ce410df13a179ba3b3761?family=Nexa-Book');
+
+
+@font-face {
+  font-family: "Nexa-Book";
+  src: url("https://db.onlinewebfonts.com/t/2eccf178aa2ce410df13a179ba3b3761.woff2") format("woff2");
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Nexa-Book", sans-serif;
+  background: #0d0d0d;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* ===== Animated Background ===== */
+.animated-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: rgba(22,21,22,0.8);
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.animated-bg.show { opacity: 1; }
+
+.bg-shape {
+  position: absolute;
+  background: rgba(180,180,180,0.05);
+  pointer-events: none;
+  will-change: transform;
+  width: 70vw;
+  height: 70vw;
+  opacity: 0;
+  animation: fadeIn 2s ease forwards;
+  animation-delay: calc(var(--i, 0) * 0.6s); /* staggered fade-in */
+}
+
+@keyframes fadeIn {
+  to { opacity: 0.8; }
+}
+
+/* ===== Login Box ===== */
+.login-container {
+  text-align: center;
+  padding: 3rem;
+  border: 4px solid transparent;
+  border-radius: 15px;
+  background: rgba(20,20,20,0.9);
+  background-clip: padding-box, border-box;
+  background-origin: border-box;
+  background-image:
+    linear-gradient(#141414, #141414),
+    linear-gradient(135deg, #00f0ff, #ff3bc1);
+  transition: width 0.8s ease, height 0.8s ease;
+  overflow: hidden;
+}
+
+.logo {
+  width: 180px;
+  margin-bottom: 2rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  transition: opacity 0.6s ease;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 0.8rem;
+  transition: opacity 0.6s ease;
+}
+
+form input {
+  width: 100%;
+  max-width: 260px;
+  padding: 0.8rem;
+  background: #0d0d0d;
+  color: #ff3bc1;
+  border: none;
+  border-bottom: 2px solid #ff3bc1;
+  font-size: 1rem;
+  font-family: "Nexa-Book", sans-serif;
+  outline: none;
+  transition: border-color 0.3s;
+}
+form input:focus { border-color: #00f0ff; }
+
+form button {
+  width: 100%;
+  max-width: 260px;
+  margin-top: 0.5rem;
+  padding: 0.8rem;
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: "Nexa-Book", sans-serif;
+  border: none;
+  cursor: pointer;
+  color: #0d0d0d;
+  background: linear-gradient(90deg, #00f0ff, #ff3bc1);
+  background-size: 200% 200%;
+  transition: background-position 0.4s ease;
+}
+form button:hover { background-position: 100% 0; }
+form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: linear-gradient(90deg, #666, #444);
+  color: #aaa;
+}
+
+/* Status message */
+.message {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  min-height: 1rem;
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.message.show { opacity: 1; }
+.message.error { color: #ff3bc1; }
+.message.success { color: #ccc; }
+
+/* Footer */
+footer {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #ccc;
+  transition: opacity 0.6s ease;
+}
+footer.fade-out { opacity: 0; }
+.signup-link {
+  color: #00f0ff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.signup-link:hover { color: #ff3bc1; }
+
+/* Profile info */
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #ccc;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  margin-top: -60px;
+}
+.user-info.show { opacity: 1; }
+.user-info img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+}
+
+/* Spinner */
+.loading-spinner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.loading-spinner::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+.loading-spinner.show { opacity: 1; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Box expand & fade */
+@keyframes expandFade {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(5); opacity: 0; }
+}
+.login-container.expand-out { animation: expandFade 1.2s ease forwards; }
+
+/* ===== Top Bar ===== */
+.top-bar {
+  position: fixed;
+  top: -90px;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  background: rgb(22,21,22);
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, #00f0ff, #ff3bc1) 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+  transition: top 0.8s ease;
+  z-index: 1000;
+}
+.top-bar.show { top: 0; }
+.left-side { display: flex; align-items: center; gap: 1rem; }
+.top-logo { height: 55px; width: auto; }
+.menu-text { font-size: 1.6rem; color: #fff; }
+.user-top-info { display: flex; align-items: center; gap: 0.8rem; }
+.user-top-pic {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 2px solid #00f0ff;
+  object-fit: cover;
+}
+.user-top-name { font-size: 1.4rem; color: #fff; }
+
+/* ===== Dashboard ===== */
+.dashboard {
+  position: fixed;
+  top: 90px; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: row;
+  background: #0d0d0d;
+  z-index: 500;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.dashboard.show { opacity: 1; transform: translateY(0); }
+
+/* ---- Left: content panel ---- */
+.dash-content {
+  flex: 1;
+  min-width: 0;
+  padding: 2.5rem 1.5rem 2rem 3rem;
+  overflow-y: auto;
+  position: relative;
+}
+.content-empty {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Nexa-Book", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  color: #222;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.content-empty-arrow {
+  font-size: 1.4rem;
+  animation: arrowPulse 2s ease-in-out infinite;
+}
+@keyframes arrowPulse {
+  0%, 100% { opacity: 0.15; transform: translateX(0); }
+  50%       { opacity: 0.7;  transform: translateX(-10px); }
+}
+.content-panel {
+  opacity: 0;
+  transform: translateX(12px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.content-panel.show { opacity: 1; transform: translateX(0); }
+
+/* ---- Right: JSB-style menu ---- */
+.dash-menu {
+  width: 360px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: visible;
+  padding: 1.5rem 0;
+}
+
+.menu-item {
+  position: relative;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  overflow: visible;
+  margin: 6px 0;
+  user-select: none;
+}
+
+/* Dark angled background for inactive state */
+.menu-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 15, 15, 0.85);
+  clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%);
+  z-index: 0;
+}
+
+/* Colored fill — wipes left→right */
+.menu-fill {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+}
+.menu-item.hovered .menu-fill { transform: scaleX(1); }
+
+/* Left accent (inactive) - angled parallelogram */
+.menu-accent {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 30px;
+  clip-path: polygon(15px 0, 23px 0, 8px 100%, 0 100%);
+  z-index: 1;
+  transition: opacity 0.2s;
+}
+.menu-item.hovered .menu-accent { opacity: 0; }
+
+/* Slash */
+.menu-slash {
+  position: relative; z-index: 1;
+  font-size: 3rem; font-weight: 700; font-style: italic;
+  color: rgba(255,255,255,0.9);
+  line-height: 1;
+  padding: 0 0.5rem 0 1.5rem;
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: opacity 0.18s ease 0.08s, transform 0.18s ease 0.08s;
+  flex-shrink: 0;
+}
+.menu-item.hovered .menu-slash { opacity: 1; transform: translateX(0); }
+
+/* Label */
+.menu-label {
+  position: relative; z-index: 1;
+  font-family: "Nexa-Book", sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding-left: 2.8rem;
+  transition: font-size 0.28s ease, color 0.28s ease, padding-left 0.28s ease;
+}
+.menu-item.hovered .menu-label {
+  font-size: 1.8rem;
+  color: #fff;
+  padding-left: 0;
+}
+
+/* Description (floats left into content area) */
+.menu-desc {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(16px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-right: 1.2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease 0.1s, transform 0.22s ease 0.1s;
+  z-index: 2;
+  white-space: nowrap;
+}
+.menu-item.hovered .menu-desc { opacity: 1; transform: translateY(-50%) translateX(0); }
+.menu-desc span {
+  font-family: "Nexa-Book", sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+  text-align: right;
+}
+
+/* ===== Module Content Panels ===== */
+
+/* -- Operator Status -- */
+.status-profile {
+  display: flex; align-items: center; gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.status-pic {
+  width: 88px; height: 88px; border-radius: 50%; object-fit: cover;
+  border: 2px solid #ff3bc1;
+  box-shadow: 0 0 18px rgba(255,59,193,0.4); flex-shrink: 0;
+}
+.status-info h2 {
+  font-size: 1.2rem; color: #00f0ff;
+  letter-spacing: 0.1em; margin-bottom: 0.3rem;
+}
+.status-info p {
+  font-family: "Nexa-Book", sans-serif;
+  font-size: 0.78rem; color: #555;
+  letter-spacing: 0.1em; margin: 0.1rem 0;
+}
+.status-stats {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 0.8rem;
+}
+.status-stat {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(0,240,255,0.1);
+  border-radius: 4px; padding: 0.8rem; text-align: center;
+}
+.status-stat-val {
+  display: block; font-family: "Nexa-Book", sans-serif;
+  font-size: 1.8rem; color: #00f0ff;
+}
+.status-stat.pk .status-stat-val { color: #ff3bc1; }
+.status-stat-lbl {
+  display: block; font-family: "Nexa-Book", sans-serif;
+  font-size: 0.6rem; color: #444;
+  letter-spacing: 0.18em; text-transform: uppercase; margin-top: 0.2rem;
+}
+
+/* -- Terminal -- */
+.terminal-box {
+  background: rgba(20,20,20,0.9);
+  border: 4px solid transparent; border-radius: 15px;
+  background-clip: padding-box, border-box;
+  background-origin: border-box;
+  background-image: linear-gradient(#141414,#141414), linear-gradient(135deg,#00f0ff,#ff3bc1);
+  padding: 1.4rem 1.6rem;
+  min-height: 280px;
+}
+.terminal-output { font-family: "Nexa-Book", sans-serif; font-size: 0.85rem; color: #00cc77; line-height: 1.9; }
+.terminal-line       { display: block; }
+.terminal-line.cmd  { color: #00f0ff; }
+.terminal-line.warn { color: #ff3bc1; }
+.terminal-line.ok   { color: #00cc77; }
+.terminal-cursor {
+  display: inline-block; width: 8px; height: 1em;
+  background: #00f0ff; vertical-align: text-bottom;
+  animation: blink 1s step-end infinite; margin-left: 2px;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* -- Missions -- */
+.mission-list { display: flex; flex-direction: column; gap: 0.7rem; }
+.mission-row {
+  display: flex; align-items: center; gap: 1rem;
+  background: rgba(255,255,255,0.02);
+  border-left: 3px solid #ff3bc1;
+  padding: 0.8rem 1rem; border-radius: 0 4px 4px 0;
+}
+.mission-status {
+  font-family: "Nexa-Book", sans-serif; font-size: 0.65rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.2rem 0.5rem; border-radius: 2px;
+  flex-shrink: 0;
+}
+.mission-status.done  { background: rgba(0,204,119,0.15); color: #00cc77; }
+.mission-status.prog  { background: rgba(255,59,193,0.15); color: #ff3bc1; }
+.mission-status.pend  { background: rgba(100,100,100,0.15); color: #555; }
+.mission-name { font-family: "Nexa-Book", sans-serif; font-size: 0.9rem; color: #ccc; flex: 1; }
+.mission-target { font-family: "Nexa-Book", sans-serif; font-size: 0.7rem; color: #444; }
+
+/* -- Intel Feed -- */
+.intel-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.intel-row {
+  display: flex; gap: 1rem; align-items: baseline;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  padding: 0.45rem 0;
+}
+.intel-time { font-family: "Nexa-Book", sans-serif; font-size: 0.7rem; color: #444; flex-shrink: 0; }
+.intel-text { font-family: "Nexa-Book", sans-serif; font-size: 0.8rem; color: #777; }
+.intel-text .hi { color: #ffaa00; }
+
+/* -- System Log -- */
+.syslog-list { display: flex; flex-direction: column; gap: 0.3rem; }
+.syslog-row { font-family: "Nexa-Book", sans-serif; font-size: 0.78rem; color: #444; line-height: 1.7; }
+.syslog-row .t { color: #2a2a2a; }
+.syslog-row .ok { color: #00cc77; }
+.syslog-row .warn { color: #ff3bc1; }
+
+/* Panel heading */
+.panel-heading {
+  font-family: "Nexa-Book", sans-serif; font-size: 0.7rem;
+  letter-spacing: 0.3em; color: #333; text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding-bottom: 0.5rem; margin-bottom: 1.2rem;
+}
+
+/* ===== VPN Module ===== */
+.vpn-card { display: flex; flex-direction: column; gap: 1rem; }
+.vpn-status-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+.vpn-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #333; transition: background 0.4s, box-shadow 0.4s;
+}
+.vpn-dot.on { background: #00cc77; box-shadow: 0 0 10px #00cc77; }
+.vpn-status-txt {
+  font-family: "Nexa-Book", sans-serif; font-size: 1rem;
+  letter-spacing: 0.15em; color: #666; flex: 1;
+}
+.vpn-dot.on + .vpn-status-txt { color: #00cc77; }
+.vpn-btn {
+  font-family: "Nexa-Book", sans-serif; font-size: 0.8rem;
+  letter-spacing: 0.15em; padding: 0.5rem 1.2rem;
+  background: transparent; color: #fff;
+  border: 2px solid transparent; border-radius: 4px;
+  background-clip: padding-box, border-box; background-origin: border-box;
+  background-image: linear-gradient(#0d0d0d,#0d0d0d), linear-gradient(90deg,#00f0ff,#ff3bc1);
+  cursor: pointer; transition: box-shadow 0.3s;
+}
+.vpn-btn:hover { box-shadow: 0 0 14px rgba(0,240,255,0.4); }
+.vpn-info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.7rem; }
+.vpn-info-item { display: flex; flex-direction: column; gap: 0.2rem; }
+.vpn-lbl { font-family: "Nexa-Book", sans-serif; font-size: 0.6rem; color: #444; letter-spacing: 0.15em; text-transform: uppercase; }
+.vpn-val { font-family: "Nexa-Book", sans-serif; font-size: 0.9rem; color: #00f0ff; }
+.vpn-server-list { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.5rem; }
+.vpn-server-row {
+  font-family: "Nexa-Book", sans-serif; font-size: 0.8rem;
+  color: #555; padding: 0.5rem 0.8rem; cursor: pointer;
+  border-left: 2px solid transparent;
+  display: flex; justify-content: space-between;
+  transition: color 0.2s, border-color 0.2s;
+}
+.vpn-server-row:hover { color: #aaa; }
+.vpn-server-row.active { color: #00cc77; border-color: #00cc77; }
+.vpn-server-row span { color: #333; }
+.vpn-server-row.active span { color: #00cc77; }
+
+/* ===== Pass Cracker ===== */
+.crack-hash { margin-bottom: 1rem; }
+.crack-lbl { display: block; font-family: "Nexa-Book", sans-serif; font-size: 0.6rem; color: #444; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.3rem; }
+.crack-code { font-family: "Nexa-Book", sans-serif; font-size: 0.72rem; color: #ff3bc1; word-break: break-all; }
+.crack-stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
+.crack-stat { display: flex; flex-direction: column; gap: 0.2rem; }
+.crack-big { font-family: "Nexa-Book", sans-serif; font-size: 1.6rem; color: #ff3bc1; }
+.crack-bar-wrap { background: rgba(255,255,255,0.04); border-radius: 2px; height: 6px; margin-bottom: 1rem; overflow: hidden; }
+.crack-bar { height: 100%; background: linear-gradient(90deg,#ff3bc1,#00f0ff); width: 0; transition: width 0.9s linear; border-radius: 2px; }
+.crack-current { margin-bottom: 1rem; }
+.crack-current code { font-family: "Nexa-Book", sans-serif; font-size: 0.9rem; color: #ccc; }
+.crack-info-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.crack-chip { font-family: "Nexa-Book", sans-serif; font-size: 0.65rem; color: #555; background: rgba(255,255,255,0.03); padding: 0.25rem 0.6rem; border-radius: 2px; border: 1px solid rgba(255,255,255,0.06); letter-spacing: 0.08em; }
+
+/* ===== Payload Forge ===== */
+.pf-form { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1rem; }
+.pf-row { display: flex; align-items: center; gap: 1rem; }
+.pf-lbl { font-family: "Nexa-Book", sans-serif; font-size: 0.7rem; color: #555; letter-spacing: 0.15em; text-transform: uppercase; width: 80px; flex-shrink: 0; }
+.pf-input, .pf-select {
+  flex: 1; background: #0d0d0d; color: #00f0ff;
+  border: none; border-bottom: 1px solid rgba(0,240,255,0.25);
+  font-family: "Nexa-Book", sans-serif; font-size: 0.82rem;
+  padding: 0.4rem 0.3rem; outline: none; cursor: pointer;
+  transition: border-color 0.2s;
+}
+.pf-input:focus, .pf-select:focus { border-color: #00f0ff; }
+.pf-btn {
+  margin-top: 0.5rem; padding: 0.7rem 1.5rem; align-self: flex-start;
+  font-family: "Nexa-Book", sans-serif; font-size: 0.85rem; font-weight: 700;
+  letter-spacing: 0.12em; cursor: pointer; color: #0d0d0d;
+  background: linear-gradient(90deg, #9966ff, #ff3bc1);
+  border: none; transition: box-shadow 0.3s;
+}
+.pf-btn:hover { box-shadow: 0 0 18px rgba(153,102,255,0.5); }
+.pf-output { margin-top: 1rem; }
+.pf-code {
+  display: block; margin-top: 0.4rem;
+  font-family: "Nexa-Book", sans-serif; font-size: 0.72rem;
+  color: #9966ff; word-break: break-all; line-height: 1.6;
+}
+
+/* Utility */
+.hidden { display: none !important; }
